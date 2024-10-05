@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment {
-        TF_VAR_region = 'us-east-1'
+        TF_VAR_region = 'eu-north-1'
         TF_VAR_access_key = credentials('aws-access-key') // Manage credentials in Jenkins
         TF_VAR_secret_key = credentials('aws-secret-key')
     }
