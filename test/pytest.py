@@ -11,13 +11,13 @@ class TestScript(unittest.TestCase):
             'Reservations': [
                 {
                     'Instances': [
-                        {'InstanceId': 'i-1234567890abcdef0'}
+                        {'InstanceId': 'i-0614e367737a78d94'}
                     ]
                 }
             ]
         }
-        instances = list_instances('us-east-1')
-        self.assertEqual(instances, ['i-1234567890abcdef0'])
+        instances = list_instances('eu-north-1')
+        self.assertEqual(instances, ['i-0614e367737a78d94'])
 
 if __name__ == '__main__':
     unittest.main()
