@@ -33,4 +33,34 @@ pipeline {
             steps {
                 // Run Terraform Init in the terraform directory
                 dir('terraform') {
+                    sh 'terraform init'
+                }
+            }
+        }
+
+        stage('Terraform Plan') {
+            steps {
+                // Run Terraform Plan in the terraform directory
+                dir('terraform') {
+                    sh 'terraform plan -out=plan.out'
+                }
+            }
+        }
+
+        stage('Terraform Apply') {
+            steps {
+                // Run Terraform Apply in the terraform directory
+                dir('terraform') {
+                    sh 'terraform apply -auto-approve plan.out'
+                }
+            }
+        }
+    }
     
+    post {
+        always {
+            // Actions that always run after all stages, regardless of success or failure
+            echo 'This always runs after pipeline completion'
+        }
+    }
+}
