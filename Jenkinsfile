@@ -2,6 +2,7 @@ pipeline {
     agent any
     
     environment {
+        GIT_CREDENTIALS = credentials('github-credentials') // Add your credentials ID here
         TF_VAR_region = 'eu-north-1'
         TF_VAR_access_key = credentials('AKIAXEFUNJKKKJFZLLF7') // Manage credentials in Jenkins
         TF_VAR_secret_key = credentials('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')
