@@ -54,7 +54,9 @@ pipeline {
     
     post {
         always {
-                cleanWs() // Clean up workspace
+             node {
+                // This ensures that even post steps have access to the node context if necessary
+                echo 'This always runs after pipeline completion'
             }
         }
     }
