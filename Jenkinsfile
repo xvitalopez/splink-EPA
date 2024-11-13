@@ -4,8 +4,8 @@ pipeline {
     environment {
         GIT_CREDENTIALS = credentials('github-credentials') // Add your credentials ID here
         TF_VAR_region = 'eu-north-1'
-        TF_VAR_access_key = credentials('AKIAXEFUNJKKAVSRU2RV') // Manage credentials in Jenkins
-        TF_VAR_secret_key = credentials('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')
+        TF_VAR_access_key = credentials('aws-access-key') // Manage credentials in Jenkins
+        TF_VAR_secret_key = credentials('aws-secret-key')
     }
     
     stages {
