@@ -20,13 +20,12 @@ pipeline {
                     // Execute tests (this example uses PyTest)
                     sh 'pytest test/'
                 }
-        }
             post {
                 always {
                     junit 'tests/*.xml' // Publish test results
                 }
             }
-        
+        }
         stage('Terraform Init') {
             steps {
                     dir('terraform') {
