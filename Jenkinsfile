@@ -11,10 +11,12 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                    git branch: 'main', url: 'https://github.com/xvitalopez/splink-EPA.git'
-                }
+                // Use the correct Git credentials ID in the `git` step
+                git branch: 'main', 
+                    url: 'https://github.com/xvitalopez/splink-EPA.git', 
+                    credentialsId: 'github-credentials'
             }
-        
+        }
         stage('Run Unit Tests') {
             steps {
                     // Execute tests (this example uses PyTest)
