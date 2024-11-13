@@ -12,3 +12,4 @@ resource "aws_instance" "example" {
     Name = "Jenkins-Terraform-Demo"
   }
 }
+
