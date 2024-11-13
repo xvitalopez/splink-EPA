@@ -3,15 +3,15 @@ pipeline {
     
     environment {
         TF_VAR_region = 'eu-north-1'
-        TF_VAR_access_key = credentials('aws-access-key') // Manage credentials in Jenkins
-        TF_VAR_secret_key = credentials('aws-secret-key')
+        TF_VAR_access_key = credentials('AKIAXEFUNJKKKJFZLLF7') // Manage credentials in Jenkins
+        TF_VAR_secret_key = credentials('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')
     }
     
     stages {
         stage('Checkout') {
             steps {
                 node{
-                git branch: 'main', url: 'https://github.com/yourusername/yourrepo.git'
+                git branch: 'main', url: 'https://github.com/xvitalopez/splink-EPA.git'
             }
         }
         }
@@ -19,7 +19,7 @@ pipeline {
             steps {
                 node{
                 // Execute tests (this example uses PyTest)
-                sh 'pytest tests/'
+                sh 'pytest test/'
             }
             post {
                 always {
