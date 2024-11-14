@@ -14,8 +14,8 @@ pipeline {
                 // Use the correct Git credentials ID in the `git` step
             }
         }
-         stage('Initialize AWS Credentials') {
-        steps {
+             stage('Initialize AWS Credentials') {
+             steps {
             withCredentials([[
                 $class: 'AmazonWebServicesCredentialsBinding',
                 credentialsId: 'aws-credentials' // Update with your actual AWS credentials ID
@@ -24,7 +24,7 @@ pipeline {
                 sh 'terraform init'
             }
         }
-        stage('Run Unit Tests') {
+            stage('Run Unit Tests') {
             steps {
                     // Execute tests (this example uses PyTest)
                     sh 'pytest test/'
@@ -37,7 +37,7 @@ pipeline {
             }
         }
         
-        stage('Terraform Init') {
+            stage('Terraform Init') {
             steps {
                     dir('terraform') {
                         sh 'terraform init'
@@ -46,7 +46,7 @@ pipeline {
             }
 
         
-        stage('Terraform Plan') {
+            stage('Terraform Plan') {
             steps {
                     dir('terraform') {
                         sh 'terraform plan -out=plan.out'
@@ -54,7 +54,7 @@ pipeline {
                 }
             }
         
-        stage('Terraform Apply') {
+            stage('Terraform Apply') {
             steps {
                     dir('terraform') {
                         sh 'terraform apply -auto-approve plan.out'
@@ -62,7 +62,7 @@ pipeline {
                 }
             }
         }
-            post {
+        post {
         always {
             echo 'This always runs after pipeline completion'
         }
