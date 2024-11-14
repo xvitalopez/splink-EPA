@@ -2,19 +2,26 @@ pipeline {
     agent any
     
     environment {
-        GIT_CREDENTIALS = credentials('github-credentials') // Add your credentials ID here
+        GIT_CREDENTIALS = credentials('github-pat-token') // Replace with your credential ID
         TF_VAR_region = 'eu-north-1'
-        TF_VAR_access_key = credentials('aws-access-key') // Manage credentials in Jenkins
-        TF_VAR_secret_key = credentials('aws-secret-key')
     }
     
     stages {
-        stage('Checkout') {
+            stage('Checkout') {
             steps {
+                 // Use the credentials in the git command
+                git branch: 'main', credentialsId: 'github-pat-token', url: 'https://github.com/xvitalopez/splink-EPA.git'
                 // Use the correct Git credentials ID in the `git` step
-                git branch: 'main', 
-                    url: 'https://github.com/xvitalopez/splink-EPA.git', 
-                    credentialsId: 'github-credentials'
+            }
+        }
+         stage('Initialize AWS Credentials') {
+        steps {
+            withCredentials([[
+                $class: 'AmazonWebServicesCredentialsBinding',
+                credentialsId: 'aws-credentials' // Update with your actual AWS credentials ID
+            ]]) {
+                // You can now access AWS using your credentials
+                sh 'terraform init'
             }
         }
         stage('Run Unit Tests') {
@@ -55,4 +62,10 @@ pipeline {
                 }
             }
         }
+            post {
+        always {
+            echo 'This always runs after pipeline completion'
+        }
+    }
+}
 }
