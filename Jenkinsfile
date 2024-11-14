@@ -2,50 +2,52 @@ pipeline {
     agent any
     
     environment {
-        GIT_CREDENTIALS = credentials('github-pat-token') // Replace with your credential ID
+        // GitHub Personal Access Token stored as a secret text in Jenkins
+        GIT_CREDENTIALS = credentials('github-pat-token') // 
+        
+        // Terraform region
         TF_VAR_region = 'eu-north-1'
     }
     
     stages {
         stage('Checkout') {
             steps {
-                // Use the credentials in the git command
-                git branch: 'main', credentialsId: 'github-pat-token', url: 'https://github.com/xvitalopez/splink-EPA.git'
-            }
-        }
-        
-        stage('Initialize AWS Credentials') {
-            steps {
-                withCredentials([[ 
-                    $class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: 'aws-credentials' // Update with your actual AWS credentials ID
-                ]]) {
-                    // You can now access AWS using your credentials
-                    sh 'terraform init'
-                }
+                // Checkout the code using Git credentials
+                git branch: 'main', 
+                    credentialsId: 'github-pat-token', //
+                    url: 'https://github.com/xvitalopez/splink-EPA.git'
             }
         }
         
         stage('Run Unit Tests') {
             steps {
-                // Execute tests (this example uses PyTest)
+                // Execute tests 
                 sh 'pytest test/'
             }
             post {
                 always {
-                    junit 'tests/*.xml' // Publish test results
+                    // Publish test results
+                    junit 'tests/*.xml'
                 }
             }
         }
         
         stage('Terraform Init') {
             steps {
-                dir('terraform') {
-                    sh 'terraform init'
+                // Initialize Terraform with AWS credentials
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-credentials', // 
+                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                ]]) {
+                    dir('terraform') {
+                        sh 'terraform init'
+                    }
                 }
             }
         }
-        
+
         stage('Terraform Plan') {
             steps {
                 dir('terraform') {
@@ -65,6 +67,7 @@ pipeline {
     
     post {
         always {
+            // Actions that always run after all stages, regardless of success or failure
             echo 'This always runs after pipeline completion'
         }
     }
