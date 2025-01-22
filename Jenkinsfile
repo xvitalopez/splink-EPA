@@ -16,8 +16,6 @@ pipeline {
                 script {
                     // Run the tests and generate test report
                     sh 'pytest --maxfail=5 --disable-warnings --junitxml=reports/test-results.xml' // For Python (pytest)
-                    // Or for Java with Maven
-                    // sh 'mvn test'
                 }
             }
         }
@@ -26,6 +24,25 @@ pipeline {
             steps {
                 junit '**/reports/test-results.xml' // Path to your test report
             }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline completed. Archiving artifacts and cleaning up.'
+            archiveArtifacts artifacts: '**/reports/test-results.xml', fingerprint: true
+        }
+        success {
+            echo 'Pipeline succeeded! Notifying team.'
+            mail to: 'xvitalopez@gmail.com',
+                 subject: "Build Successful: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: "The Jenkins build ${env.JOB_NAME} #${env.BUILD_NUMBER} succeeded.\n\nCheck it here: ${env.BUILD_URL}"
+        }
+        failure {
+            echo 'Pipeline failed! Sending notifications.'
+            mail to: 'team@example.com',
+                 subject: "Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: "The Jenkins build ${env.JOB_NAME} #${env.BUILD_NUMBER} failed.\n\nCheck it here: ${env.BUILD_URL}"
         }
     }
 }
