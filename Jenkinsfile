@@ -1,25 +1,26 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.12'
+        }
+    }
     stages {
         stage('Check Python') {
             steps {
-                bat '"C:\\Users\\xvita\\AppData\\Local\\Programs\\Python\\Python312 --version"'
-                bat '"C:\\Users\\\\xvita\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python312\\\\Scripts\\\\pip --version"'
+                sh 'python --version'
+                sh 'pip --version'
             }
         }
+
         stage('Install dependencies') {
             steps {
-                script {
-                    bat 'pip install -r requirements.txt' 
-                }
+                sh 'pip install -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                script {
-                    bat 'pytest --rootdir --maxfail=5 --disable-warnings --junitxml=reports/test-results.xml'
-                }
+                sh 'pytest --rootdir --maxfail=5 --disable-warnings --junitxml=reports/test-results.xml'
             }
         }
 
