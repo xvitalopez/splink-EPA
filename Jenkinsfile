@@ -24,11 +24,6 @@ pipeline {
             }
         }
 
-        stage('List Installed Libraries') {
-    steps {
-        bat 'pip list'
-    }
-}
 
         stage('Run Tests') {
             steps {
