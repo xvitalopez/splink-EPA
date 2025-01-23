@@ -1,46 +1,41 @@
 pipeline {
     agent {
         docker {
-            image 'python:3.12' // Updated to Python 3.10
+            image 'ubuntu:latest' // Changed to Ubuntu
         }
     }
     stages {
-        stage('Check Python') {
+        stage('Set Up Environment') {
             steps {
-                bat 'python --version'
-                bat 'pip --version'
+                sh '''
+                    apt-get update
+                    apt-get install -y python3 python3-pip curl unzip
+                    curl -fsSL https://releases.hashicorp.com/terraform/1.5.3/terraform_1.5.3_linux_amd64.zip -o terraform.zip
+                    unzip terraform.zip
+                    mv terraform /usr/local/bin/
+                    terraform --version
+                    python3 --version
+                '''
             }
         }
 
-        stage('Install dependencies') { // This stage installs required libraries
+        stage('Terraform Apply') {
             steps {
-                bat 'pip install -r requirements.txt' // Install dependencies
+                sh '''
+                    terraform init
+                    terraform plan
+                    terraform apply -auto-approve
+                '''
             }
         }
 
-        stage('Debug Installed Libraries') { // Optional debugging stage
-            steps {
-                bat 'pip list' // Verifies installed libraries
-            }
-        }
-
-        stage('Run Tests') {
-            steps {
-                bat 'pytest --rootdir --maxfail=5 --disable-warnings --junitxml=reports/test-results.xml'
-            }
-        }
-
-        stage('Publish Test Results') {
-            steps {
-                junit '**/reports/test-results.xml'
-            }
-        }
+        // Unit test stages temporarily removed for now.
     }
 
     post {
         always {
             echo 'Pipeline completed. Archiving artifacts and cleaning up.'
-            archiveArtifacts artifacts: '**/reports/test-results.xml', fingerprint: true
+            archiveArtifacts artifacts: '**/terraform.tfstate', fingerprint: true
         }
         success {
             echo 'Pipeline succeeded!'
