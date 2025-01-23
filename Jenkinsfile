@@ -31,16 +31,10 @@ pipeline {
             archiveArtifacts artifacts: '**/reports/test-results.xml', fingerprint: true
         }
         success {
-            echo 'Pipeline succeeded! Notifying you.'
-            mail to: 'xvitalopez@gmail.com',
-                 subject: "Build Successful: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                 body: "The Jenkins build ${env.JOB_NAME} #${env.BUILD_NUMBER} succeeded.\n\nCheck it here: ${env.BUILD_URL}"
+            echo 'Pipeline succeeded!'
         }
         failure {
-            echo 'Pipeline failed! Sending notifications.'
-            mail to: 'xvitalopez@gmail.com',
-                 subject: "Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                 body: "The Jenkins build ${env.JOB_NAME} #${env.BUILD_NUMBER} failed.\n\nCheck it here: ${env.BUILD_URL}"
+            echo 'Pipeline failed!'
         }
     }
 }
