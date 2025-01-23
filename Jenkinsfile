@@ -5,8 +5,7 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 script {
-                    // Install dependencies, e.g., using npm or pip
-                    sh 'pip install -r requirements.txt' // For Python
+                    sh 'pip install -r requirements.txt' 
                 }
             }
         }
@@ -14,15 +13,14 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    // Run the tests and generate test report
-                    sh 'pytest --rootdir --maxfail=5 --disable-warnings --junitxml=reports/test-results.xml' // For Python (pytest)
+                    sh 'pytest --rootdir --maxfail=5 --disable-warnings --junitxml=reports/test-results.xml'
                 }
             }
         }
 
         stage('Publish Test Results') {
             steps {
-                junit '**/reports/test-results.xml' // Path to your test report
+                junit '**/reports/test-results.xml'
             }
         }
     }
