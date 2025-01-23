@@ -9,7 +9,7 @@ resource "aws_instance" "example" {
   instance_type = "t3.micro"
   
   tags = {
-    Name = "Jenkins-Terraform-Demo"
+    Name = "Jenkins-Terraform-EPA"
   }
 }
 
