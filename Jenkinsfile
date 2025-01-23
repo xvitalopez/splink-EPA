@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'python:3.12'
+            image 'python:3.12' // Or adjust the Python version as needed
         }
     }
     stages {
@@ -12,18 +12,17 @@ pipeline {
             }
         }
 
-        stage('List Installed Libraries') {
+        stage('Install dependencies') { // This stage installs required libraries
             steps {
-                bat 'pip list'
+                bat 'pip install -r requirements.txt' // Install dependencies
             }
         }
 
-        stage('Install dependencies') {
+        stage('Debug Installed Libraries') { // Optional debugging stage
             steps {
-                bat 'pip install -r requirements.txt'
+                bat 'pip list' // Verifies installed libraries
             }
         }
-
 
         stage('Run Tests') {
             steps {
