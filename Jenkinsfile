@@ -7,20 +7,26 @@ pipeline {
     stages {
         stage('Check Python') {
             steps {
-                sh 'python --version'
-                sh 'pip --version'
+                bat 'python --version'
+                bat 'pip --version'
+            }
+        }
+
+        stage('List Installed Libraries') {
+            steps {
+                bat 'pip list'
             }
         }
 
         stage('Install dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
+                bat 'pip install -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'pytest --rootdir --maxfail=5 --disable-warnings --junitxml=reports/test-results.xml'
+                bat 'pytest --rootdir --maxfail=5 --disable-warnings --junitxml=reports/test-results.xml'
             }
         }
 
