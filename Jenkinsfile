@@ -3,8 +3,8 @@ pipeline {
     stages {
         stage('Check Python') {
             steps {
-                bat ""C:Users\\xvita\\AppData\\Local\\Programs\\Python\\Python312 --version""
-                bat ""C:Users\\xvita\\AppData\\Local\\Programs\\Python\\Python312\\Scripts\\pip --version""
+                bat '"C:Users\\\\xvita\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python312 --version"'
+                bat '"C:Users\\\\xvita\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python312\\\\Scripts\\\\pip --version"'
             }
         }
         stage('Install dependencies') {
