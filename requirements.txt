@@ -3,3 +3,4 @@ botocore
 pytest
 pytest-mock
 unittest
+some-library==x.y.z
