@@ -24,6 +24,12 @@ pipeline {
             }
         }
 
+        stage('List Installed Libraries') {
+    steps {
+        bat 'pip list'
+    }
+}
+
         stage('Run Tests') {
             steps {
                 bat 'pytest --rootdir --maxfail=5 --disable-warnings --junitxml=reports/test-results.xml'
