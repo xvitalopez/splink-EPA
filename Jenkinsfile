@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'python:3.12' // Or adjust the Python version as needed
+            image 'python:3.10' // Updated to Python 3.10
         }
     }
     stages {
