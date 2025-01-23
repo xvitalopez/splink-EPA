@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     // Run the tests and generate test report
-                    sh 'pytest test --maxfail=5 --disable-warnings --junitxml=reports/test-results.xml' // For Python (pytest)
+                    sh 'pytest --rootdir --maxfail=5 --disable-warnings --junitxml=reports/test-results.xml' // For Python (pytest)
                 }
             }
         }
