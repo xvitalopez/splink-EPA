@@ -5,7 +5,7 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 script {
-                    sh 'pip install -r requirements.txt' 
+                    bat 'pip install -r requirements.txt' 
                 }
             }
         }
@@ -13,7 +13,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    sh 'pytest --rootdir --maxfail=5 --disable-warnings --junitxml=reports/test-results.xml'
+                    bat 'pytest --rootdir --maxfail=5 --disable-warnings --junitxml=reports/test-results.xml'
                 }
             }
         }
